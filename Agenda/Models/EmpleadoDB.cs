@@ -12,7 +12,7 @@ namespace Agenda.Models
     {
 
         //declarar la cadena de conection
-        string cs = ConfigurationManager.ConnectionStrings["pruebaEntities"].ConnectionString;
+        string cs = ConfigurationManager.ConnectionStrings["connection"].ConnectionString;
 
         //Return list of all Employees  
         public List<Empleados> ListAll()
@@ -45,6 +45,42 @@ namespace Agenda.Models
                 return lst;
             }
         }
+
+
+        public List<Empleados> getbyID(string id)
+        {
+            List<Empleados> lst = new List<Empleados>();
+            using (SqlConnection con = new SqlConnection(cs))
+            {
+                con.Open();
+                SqlCommand com = new SqlCommand("SelectEmployeeByID", con);
+                com.CommandType = CommandType.StoredProcedure;
+                com.Parameters.AddWithValue("@Id", Convert.ToInt32( id));
+                SqlDataReader rdr = com.ExecuteReader();
+                try
+                {
+                    while (rdr.Read())
+                    {
+                        lst.Add(new Empleados
+                        {
+                            EmployeeId = Convert.ToInt32(rdr["EmployeeID"]),
+                            Name = rdr["Name"].ToString(),
+                            Salary = Convert.ToInt32(rdr["Salary"]),
+                            Office = rdr["Office"].ToString(),
+                            Position = rdr["Position"].ToString(),
+                        });
+                    }
+                }
+                catch (Exception ex)
+                {
+
+                }
+
+                return lst;
+            }
+        }
+
+
 
         //Method for Adding an Employee  
         public int Add(Empleados emp)
