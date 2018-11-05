@@ -1,0 +1,139 @@
+USE [prueba]
+GO
+
+/****** Object:  Table [dbo].[Employee]    Script Date: 05/11/2018 9:09:34 ******/
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+CREATE TABLE [dbo].[Employee](
+	[EmployeeId] [int] IDENTITY(1,1) NOT NULL,
+	[Name] [varchar](50) NULL,
+	[Position] [varchar](50) NULL,
+	[Office] [varchar](50) NULL,
+	[Salary] [int] NULL,
+	[ImagePath] [varchar](50) NULL,
+ CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED 
+(
+	[EmployeeId] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+
+GO
+
+
+
+----------------------------------------SP
+USE [prueba]
+GO
+/****** Object:  StoredProcedure [dbo].[InsertUpdateEmployee]    Script Date: 05/11/2018 9:10:12 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[InsertUpdateEmployee]    
+	-- Add the parameters for the stored procedure here
+	@Id integer,    
+	@Name nvarchar(50),   
+	@Position nvarchar(50),  
+	@Office nvarchar(50),  
+	@Salary integer,    
+	   
+	  
+	@Action varchar(10)  
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	if @Action='Insert'    
+		Begin    
+		 Insert into Employee(Name,Position,Office,Salary) values(@Name,@Position,@Office,@Salary);    
+		End    
+		if @Action='Update'    
+		Begin    
+		 Update Employee set Name=@Name,Position=@Position,Office=@Office,Salary=@Salary where EmployeeID=@Id;    
+		End 
+END
+---------------------------------------------------------
+USE [prueba]
+GO
+/****** Object:  StoredProcedure [dbo].[SelectEmployee]    Script Date: 05/11/2018 9:10:44 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[SelectEmployee]    
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT * FROM Employee
+END
+-------------------------------------------------------------
+USE [prueba]
+GO
+/****** Object:  StoredProcedure [dbo].[SelectEmployeeByID]    Script Date: 05/11/2018 9:11:05 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[SelectEmployeeByID]
+@Id int 
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	SELECT * FROM Employee Where EmployeeId = @Id
+
+END
+----------------------------------------------------
+USE [prueba]
+GO
+/****** Object:  StoredProcedure [dbo].[DeleteEmployee]    Script Date: 05/11/2018 9:11:20 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- =============================================
+-- Author:		<Author,,Name>
+-- Create date: <Create Date,,>
+-- Description:	<Description,,>
+-- =============================================
+ALTER PROCEDURE [dbo].[DeleteEmployee]    
+	-- Add the parameters for the stored procedure here
+	 @Id integer 
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+    -- Insert statements for procedure here
+	Delete Employee where EmployeeID=@Id; 
+END
