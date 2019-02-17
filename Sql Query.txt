@@ -137,3 +137,14 @@ BEGIN
     -- Insert statements for procedure here
 	Delete Employee where EmployeeID=@Id; 
 END
+----
+
+CREATE TABLE [dbo].[usuarios](
+	[id] [int] IDENTITY(1,1) NOT NULL,
+	[usuario] [nchar](10) NULL,
+	[clave] [nchar](10) NULL,
+	[nombre] [nchar](50) NULL,
+	[estado] [nchar](10) NULL
+) ON [PRIMARY]
+
+GO
